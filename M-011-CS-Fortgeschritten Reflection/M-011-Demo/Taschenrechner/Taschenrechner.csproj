@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <BaseOutputPath>C:\Aktueller Kurs\CSharp_Advanced_KW23_ppedv\CSharp_Advanced\LoadDllWithReflectionInRuntimeSampleApp\bin</BaseOutputPath>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,14 @@
+Sprachfeatures 1
+Sprachfeatures 2
+Delegates
+Events
+Generics
+Serialisierung
+Threads
+TPL
+Async/Await
+Linq
+Erweiterungsmethoden
+Parallel Linq
+Reflection
+Sonstiges
