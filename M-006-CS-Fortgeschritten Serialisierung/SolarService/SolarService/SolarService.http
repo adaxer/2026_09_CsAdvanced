@@ -1,0 +1,79 @@
+@SolarService_HostAddress = http://localhost:5194
+
+GET {{SolarService_HostAddress}}/
+Accept: application/json
+
+###
+
+GET {{SolarService_HostAddress}}/status/
+Accept: application/json
+
+###
+
+GET {{SolarService_HostAddress}}/SolarSystem/
+Accept: application/json
+###
+
+POST {{SolarService_HostAddress}}/SolarSystem/
+Content-Type: application/json
+{
+  "$id": "1",
+  "value": {
+    "$id": "2",
+    "name": "Sun",
+    "type": 0
+  },
+  "parent": null,
+  "children": {
+    "$id": "3",
+    "$values": [
+      {
+        "$id": "4",
+        "value": {
+          "$id": "5",
+          "name": "Earth",
+          "type": 1
+        },
+        "parent": {
+          "$ref": "1"
+        },
+        "children": {
+          "$id": "6",
+          "$values": [
+            {
+              "$id": "7",
+              "value": {
+                "$id": "8",
+                "name": "Moon",
+                "type": 2
+              },
+              "parent": {
+                "$ref": "4"
+              },
+              "children": {
+                "$id": "9",
+                "$values": []
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$id": "10",
+        "value": {
+          "$id": "11",
+          "name": "Mars",
+          "type": 1
+        },
+        "parent": {
+          "$ref": "1"
+        },
+        "children": {
+          "$id": "12",
+          "$values": []
+        }
+      }
+    ]
+  }
+}
+###

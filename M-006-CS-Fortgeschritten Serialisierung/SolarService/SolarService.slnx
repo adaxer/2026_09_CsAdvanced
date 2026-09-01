@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="../../M-003-CS-Fortgeschritten Generics/SolarSystem/SolarSystem/SolarSystem.csproj" />
+  <Project Path="AClassLib/AClassLib.csproj" />
+  <Project Path="SolarService/SolarService.csproj" />
+</Solution>

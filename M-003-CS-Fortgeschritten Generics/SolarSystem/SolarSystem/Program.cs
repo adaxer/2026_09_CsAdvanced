@@ -1,8 +1,8 @@
-﻿using System.Reflection.Metadata.Ecma335;
+﻿using System.Text.Json.Serialization;
 
 namespace SolarSystem;
 
-internal class Program
+public class Program
 {
     static void Main(string[] args)
     {
@@ -19,7 +19,7 @@ internal class Program
         }
     }
 
-    static Node<CelestialBody> CreateSolarSystem()
+    public static Node<CelestialBody> CreateSolarSystem()
     {
         CelestialBody sun = new CelestialBody("Sun", CelestialBodyType.Star);
         Node<CelestialBody> sunNode = new Node<CelestialBody>(sun);
@@ -41,6 +41,8 @@ internal class Program
 public class Node<T>
 {
     public T Value { get; }
+
+    // [JsonIgnore] - löst das Problem
     public Node<T>? Parent { get; } = default;
     public IEnumerable<Node<T>> Children { get; } = new List<Node<T>>();
  
@@ -49,6 +51,7 @@ public class Node<T>
         Value = value;
     }
 
+    [JsonConstructor]
     public Node(T value, Node<T> parent) : this(value)
     {
         Parent = parent;
