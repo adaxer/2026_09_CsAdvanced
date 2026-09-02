@@ -21,18 +21,35 @@ public class Program
 
     public static Node<CelestialBody> CreateSolarSystem()
     {
+        //CelestialBody sun = new CelestialBody("Sun", CelestialBodyType.Star);
+        //Node<CelestialBody> sunNode = new Node<CelestialBody>(sun);
+
+        //CelestialBody earth = new CelestialBody("Earth", CelestialBodyType.Planet);
+        //var earthNode = new Node<CelestialBody>(earth, sunNode);
+        //sunNode.AddChildNode(earthNode);
+
+        //var mars = earth with { Name = "Mars" };
+        //sunNode.AddChild(mars);
+
+        //CelestialBody moon = new CelestialBody("Moon", CelestialBodyType.Moon);
+        //earthNode.AddChild(moon);
+
         CelestialBody sun = new CelestialBody("Sun", CelestialBodyType.Star);
         Node<CelestialBody> sunNode = new Node<CelestialBody>(sun);
 
         CelestialBody earth = new CelestialBody("Earth", CelestialBodyType.Planet);
-        var earthNode = new Node<CelestialBody>(earth, sunNode);
-        sunNode.AddChildNode(earthNode);
-
         var mars = earth with { Name = "Mars" };
-        sunNode.AddChild(mars);
-
+        var jupiter = earth with { Name = "Jupiter" };
         CelestialBody moon = new CelestialBody("Moon", CelestialBodyType.Moon);
-        earthNode.AddChild(moon);
+        var deimos = moon with { Name = "Deimos" };
+        var phobos = moon with { Name = "Phobos" };
+
+        sunNode.AddChildTo(sun, earth);
+        sunNode.AddChildTo(sun, mars);
+        sunNode.AddChildTo(earth, moon);
+        sunNode.AddChildTo(mars, deimos);
+        sunNode.AddChildTo(mars, phobos);
+        sunNode.AddChildTo(sun, jupiter);
 
         return sunNode;
     }
@@ -45,7 +62,22 @@ public class Node<T>
     // [JsonIgnore] - löst das Problem
     public Node<T>? Parent { get; } = default;
     public IEnumerable<Node<T>> Children { get; } = new List<Node<T>>();
- 
+    
+    public IEnumerable<Node<T>> FlatChildren 
+    { 
+        get
+        {
+            yield return this;
+            foreach (var child in Children)
+            {
+                foreach (var descendant in child.FlatChildren)
+                {
+                    yield return descendant;
+                }
+            }
+        }
+    }
+
     public Node(T value)
     {
         Value = value;
@@ -83,15 +115,18 @@ public class Node<T>
         ((List<Node<T>>)Children).Remove(child);
     }
 
-    //public bool AddChildTo(T existingNode, T newNode)
-    //{
-    //    var childNode = FindChildNode(existingNode);
-    //    if(childNode == null)
-    //    {
-    //        return false;
-    //    }
-    //    childNode.AddChild(moon);
-    //}
+    public bool AddChildTo(T parentValue, T childValue)
+    {
+        foreach (var node in FlatChildren)
+        {
+            if(node.Value!.Equals(parentValue))
+            {
+                node.AddChild(childValue);
+                return true;
+            }
+        }
+        return false;
+    }
 
     //protected Node<T>? FindChildNode(Node<T> node)
     //{
