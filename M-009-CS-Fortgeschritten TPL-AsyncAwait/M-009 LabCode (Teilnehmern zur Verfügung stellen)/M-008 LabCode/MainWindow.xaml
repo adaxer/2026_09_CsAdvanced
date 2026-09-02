@@ -11,7 +11,7 @@
         <ScrollViewer Name="Scroll">
             <TextBlock Name="Output"/>
         </ScrollViewer>
-        <ProgressBar IsIndeterminate="True" Grid.Row="1" Margin="0,0,0,5"/>
-        <Button Click="SplitJsonFileAndSaveFiles" Content="Split Json" Grid.Row="2"/>
+        <ProgressBar x:Name="Progress" IsIndeterminate="True" Grid.Row="1" Minimum="0" Maximum="100" Margin="0,0,0,5"/>
+        <Button Click="ButtonClick" Content="Split Json" Grid.Row="2"/>
     </Grid>
 </Window>
