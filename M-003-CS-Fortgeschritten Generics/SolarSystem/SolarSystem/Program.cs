@@ -33,7 +33,7 @@ public class Program
 
         //CelestialBody moon = new CelestialBody("Moon", CelestialBodyType.Moon);
         //earthNode.AddChild(moon);
-
+        Node<CelestialBody>.UseDynamic = false;
         CelestialBody sun = new CelestialBody("Sun", CelestialBodyType.Star);
         Node<CelestialBody> sunNode = new Node<CelestialBody>(sun);
 
@@ -63,14 +63,14 @@ public class Node<T>
     public Node<T>? Parent { get; } = default;
     public IEnumerable<Node<T>> Children { get; } = new List<Node<T>>();
     
-    public IEnumerable<Node<T>> FlatChildren 
+    public IEnumerable<Node<T>> FlatChildrenDynamic 
     { 
         get
         {
             yield return this;
             foreach (var child in Children)
             {
-                foreach (var descendant in child.FlatChildren)
+                foreach (var descendant in child.FlatChildrenDynamic)
                 {
                     yield return descendant;
                 }
@@ -78,9 +78,13 @@ public class Node<T>
         }
     }
 
+    public IEnumerable<Node<T>> FlatChildrenStatic { get; } = new List<Node<T>>();
+    public static bool UseDynamic { get; set; } = false;
+
     public Node(T value)
     {
         Value = value;
+        FlatChildrenStatic = new List<Node<T>> { this };
     }
 
     [JsonConstructor]
@@ -115,9 +119,9 @@ public class Node<T>
         ((List<Node<T>>)Children).Remove(child);
     }
 
-    public bool AddChildTo(T parentValue, T childValue)
+    public bool AddChildToDynamic(T parentValue, T childValue)
     {
-        foreach (var node in FlatChildren)
+        foreach (var node in FlatChildrenDynamic)
         {
             if(node.Value!.Equals(parentValue))
             {
@@ -127,22 +131,24 @@ public class Node<T>
         }
         return false;
     }
+    internal bool AddChildTo(T parentValue, T childValue)
+    {
+        return Node<T>.UseDynamic ? AddChildToDynamic(parentValue, childValue) : AddChildToStatic(parentValue, childValue);
+    }
 
-    //protected Node<T>? FindChildNode(Node<T> node)
-    //{
-    //    var result = node.Children.FirstOrDefault(c => c.Value!.Equals(node.Value));
-    //    if(result != null)
-    //    {
-    //        return result;
-    //    }
-    //    foreach (var child in node.Children)
-    //    {
-    //        if(child.FindChildNode(child) is Node<T> found)
-    //        {
-    //            return found;
-    //        }
-    //    }
-    //}
+    internal bool AddChildToStatic(T parentValue, T childValue)
+    {
+        foreach (var node in FlatChildrenStatic)
+        {
+            if (node.Value!.Equals(parentValue))
+            {
+                node.AddChild(childValue);
+                FlatChildrenStatic.Append(new Node<T>(childValue, node));
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 //public class CelestialBody

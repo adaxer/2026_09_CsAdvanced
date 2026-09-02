@@ -1,0 +1,10 @@
+<Solution>
+  <Project Path="CsvExchange/CsvExchange.csproj" />
+  <Project Path="PluginBase/PluginBase.csproj" />
+  <Project Path="PluginClient/PluginClient.csproj">
+    <BuildDependency Project="CsvExchange/CsvExchange.csproj" />
+    <BuildDependency Project="PluginBase/PluginBase.csproj" />
+    <BuildDependency Project="WebLoader/WebLoader.csproj" />
+  </Project>
+  <Project Path="WebLoader/WebLoader.csproj" />
+</Solution>
