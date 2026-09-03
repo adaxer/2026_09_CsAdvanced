@@ -51,6 +51,7 @@ public class Program
         sunNode.AddChildTo(mars, phobos);
         sunNode.AddChildTo(sun, jupiter);
 
+
         return sunNode;
     }
 }
@@ -78,13 +79,13 @@ public class Node<T>
         }
     }
 
-    public IEnumerable<Node<T>> FlatChildrenStatic { get; } = new List<Node<T>>();
+    public IList<Node<T>> FlatChildrenStatic { get; private set; } = new List<Node<T>>();
     public static bool UseDynamic { get; set; } = false;
+    public Node<T> Root => Parent == null ? this : Parent.Root;
 
     public Node(T value)
     {
         Value = value;
-        FlatChildrenStatic = new List<Node<T>> { this };
     }
 
     [JsonConstructor]
@@ -138,16 +139,35 @@ public class Node<T>
 
     internal bool AddChildToStatic(T parentValue, T childValue)
     {
-        foreach (var node in FlatChildrenStatic)
+        var root = Root;
+        bool checkAndAdd(Node<T> node)
         {
             if (node.Value!.Equals(parentValue))
             {
                 node.AddChild(childValue);
-                FlatChildrenStatic.Append(new Node<T>(childValue, node));
+                root.RebuildFlatChildrenStatic();
+                return true;
+            }
+            return false;
+        }
+
+        if(checkAndAdd(root))
+        {
+            return true;
+        }
+        foreach (var node in root.FlatChildrenStatic)
+        {
+            if (checkAndAdd(node))
+            {
                 return true;
             }
         }
         return false;
+    }
+
+    private void RebuildFlatChildrenStatic()
+    {
+        Root.FlatChildrenStatic= new List<Node<T>>(Root.FlatChildrenDynamic);
     }
 }
 
