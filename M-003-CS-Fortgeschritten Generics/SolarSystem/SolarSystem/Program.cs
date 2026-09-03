@@ -34,23 +34,111 @@ public class Program
         //CelestialBody moon = new CelestialBody("Moon", CelestialBodyType.Moon);
         //earthNode.AddChild(moon);
         Node<CelestialBody>.UseDynamic = false;
+
         CelestialBody sun = new CelestialBody("Sun", CelestialBodyType.Star);
         Node<CelestialBody> sunNode = new Node<CelestialBody>(sun);
 
         CelestialBody earth = new CelestialBody("Earth", CelestialBodyType.Planet);
+
+        var mercury = earth with { Name = "Mercury" };
+        var venus = earth with { Name = "Venus" };
         var mars = earth with { Name = "Mars" };
         var jupiter = earth with { Name = "Jupiter" };
-        CelestialBody moon = new CelestialBody("Moon", CelestialBodyType.Moon);
-        var deimos = moon with { Name = "Deimos" };
-        var phobos = moon with { Name = "Phobos" };
+        var saturn = earth with { Name = "Saturn" };
+        var uranus = earth with { Name = "Uranus" };
+        var neptune = earth with { Name = "Neptune" };
+        var pluto = earth with { Name = "Pluto" };
 
+        CelestialBody moon = new CelestialBody("Moon", CelestialBodyType.Moon);
+
+        // Mars
+        var phobos = moon with { Name = "Phobos" };
+        var deimos = moon with { Name = "Deimos" };
+
+        // Jupiter
+        var io = moon with { Name = "Io" };
+        var europa = moon with { Name = "Europa" };
+        var ganymede = moon with { Name = "Ganymede" };
+        var callisto = moon with { Name = "Callisto" };
+
+        // Saturn
+        var mimas = moon with { Name = "Mimas" };
+        var enceladus = moon with { Name = "Enceladus" };
+        var tethys = moon with { Name = "Tethys" };
+        var dione = moon with { Name = "Dione" };
+        var rhea = moon with { Name = "Rhea" };
+        var titan = moon with { Name = "Titan" };
+        var iapetus = moon with { Name = "Iapetus" };
+
+        // Uranus
+        var miranda = moon with { Name = "Miranda" };
+        var ariel = moon with { Name = "Ariel" };
+        var umbriel = moon with { Name = "Umbriel" };
+        var titania = moon with { Name = "Titania" };
+        var oberon = moon with { Name = "Oberon" };
+
+        // Neptune
+        var triton = moon with { Name = "Triton" };
+        var nereid = moon with { Name = "Nereid" };
+
+        // Pluto
+        var charon = moon with { Name = "Charon" };
+        var styx = moon with { Name = "Styx" };
+        var nix = moon with { Name = "Nix" };
+        var kerberos = moon with { Name = "Kerberos" };
+        var hydra = moon with { Name = "Hydra" };
+
+
+        // Planets
+        sunNode.AddChildTo(sun, mercury);
+        sunNode.AddChildTo(sun, venus);
         sunNode.AddChildTo(sun, earth);
         sunNode.AddChildTo(sun, mars);
-        sunNode.AddChildTo(earth, moon);
-        sunNode.AddChildTo(mars, deimos);
-        sunNode.AddChildTo(mars, phobos);
         sunNode.AddChildTo(sun, jupiter);
+        sunNode.AddChildTo(sun, saturn);
+        sunNode.AddChildTo(sun, uranus);
+        sunNode.AddChildTo(sun, neptune);
+        sunNode.AddChildTo(sun, pluto);
 
+        // Earth
+        sunNode.AddChildTo(earth, moon);
+
+        // Mars
+        sunNode.AddChildTo(mars, phobos);
+        sunNode.AddChildTo(mars, deimos);
+
+        // Jupiter
+        sunNode.AddChildTo(jupiter, io);
+        sunNode.AddChildTo(jupiter, europa);
+        sunNode.AddChildTo(jupiter, ganymede);
+        sunNode.AddChildTo(jupiter, callisto);
+
+        // Saturn
+        sunNode.AddChildTo(saturn, mimas);
+        sunNode.AddChildTo(saturn, enceladus);
+        sunNode.AddChildTo(saturn, tethys);
+        sunNode.AddChildTo(saturn, dione);
+        sunNode.AddChildTo(saturn, rhea);
+        sunNode.AddChildTo(saturn, titan);
+        sunNode.AddChildTo(saturn, iapetus);
+
+        // Uranus
+        sunNode.AddChildTo(uranus, miranda);
+        sunNode.AddChildTo(uranus, ariel);
+        sunNode.AddChildTo(uranus, umbriel);
+        sunNode.AddChildTo(uranus, titania);
+        sunNode.AddChildTo(uranus, oberon);
+
+        // Neptune
+        sunNode.AddChildTo(neptune, triton);
+        sunNode.AddChildTo(neptune, nereid);
+
+        // Pluto
+        sunNode.AddChildTo(pluto, charon);
+        sunNode.AddChildTo(pluto, styx);
+        sunNode.AddChildTo(pluto, nix);
+        sunNode.AddChildTo(pluto, kerberos);
+        sunNode.AddChildTo(pluto, hydra);
 
         return sunNode;
     }
